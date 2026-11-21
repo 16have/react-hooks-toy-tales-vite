@@ -33,7 +33,7 @@ function ToyCard({ toy, onLikeToy, onDeleteToy }) {
         className="del-btn"
         onClick={handleDeleteClick}
       >
-        Donate to Goodwill
+        Donate to GoodWill
       </button>
     </div>
   );
