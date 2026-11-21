@@ -31,13 +31,6 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
-    fetch("http://localhost:3001/toys")
-      .then((response) => response.json())
-      .then((data) => setToys(data))
-      .catch((error) => console.error(error));
-  }, []);
-
   function handleClick() {
     setShowForm((prevShowForm) => !prevShowForm);
   }
