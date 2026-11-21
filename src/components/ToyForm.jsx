@@ -7,12 +7,18 @@ function ToyForm({ onAddToy }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    const trimmedName = name.trim();
+const trimmedImage = image.trim();
+
+if (!trimmedName || !trimmedImage) {
+  return;
+}
 
     const newToy = {
-      name: name,
-      image: image,
-      likes: 0,
-    };
+  name: trimmedName,
+  image: trimmedImage,
+  likes: 0,
+};
 
     fetch("http://localhost:3001/toys", {
       method: "POST",
@@ -49,9 +55,7 @@ function ToyForm({ onAddToy }) {
           placeholder="Enter a toy's name..."
           className="input-text"
           value={name}
-          onChange={(event) =>
-            setName(event.target.value)
-          }
+          onChange={(event) => setName(event.target.value)}
         />
 
         <br />
@@ -62,9 +66,7 @@ function ToyForm({ onAddToy }) {
           placeholder="Enter a toy's image URL..."
           className="input-text"
           value={image}
-          onChange={(event) =>
-            setImage(event.target.value)
-          }
+          onChange={(event) => setImage(event.target.value)}
         />
 
         <br />
