@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 function ToyForm({ onAddToy }) {
@@ -6,24 +7,48 @@ function ToyForm({ onAddToy }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-
     const trimmedName = name.trim();
-    const trimmedImage = image.trim();
+const trimmedImage = image.trim();
 
-    if (!trimmedName || !trimmedImage) {
-      return;
-    }
+if (!trimmedName || !trimmedImage) {
+  return;
+}
 
-    onAddToy({ name: trimmedName, image: trimmedImage }).then(() => {
-      setName("");
-      setImage("");
-    });
+    const newToy = {
+  name: trimmedName,
+  image: trimmedImage,
+  likes: 0,
+};
+
+    fetch("http://localhost:3001/toys", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newToy),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to create toy");
+        }
+        return response.json();
+      })
+      .then((createdToy) => {
+        onAddToy(createdToy);
+        setName("");
+        setImage("");
+      })
+      .catch((error) => console.error(error));
   }
 
   return (
     <div className="container">
-      <form className="add-toy-form" onSubmit={handleSubmit}>
+      <form
+        className="add-toy-form"
+        onSubmit={handleSubmit}
+      >
         <h3>Create a toy!</h3>
+
         <input
           type="text"
           name="name"
@@ -32,7 +57,9 @@ function ToyForm({ onAddToy }) {
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
+
         <br />
+
         <input
           type="text"
           name="image"
@@ -41,7 +68,9 @@ function ToyForm({ onAddToy }) {
           value={image}
           onChange={(event) => setImage(event.target.value)}
         />
+
         <br />
+
         <input
           type="submit"
           name="submit"
